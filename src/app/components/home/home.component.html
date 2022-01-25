@@ -1,0 +1,27 @@
+<mat-sidenav-content>
+    <div class="container" > 
+        <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" >
+            <div class="">
+            <mat-form-field class="form-element">
+            <input matInput placeholder="amount of transfer" formControlName="amount">
+          </mat-form-field>
+      
+          <mat-form-field class="form-element">
+            <input matInput placeholder="Address of receiver" formControlName="sendTo">
+          </mat-form-field>
+      
+            </div>
+        
+        
+      
+          <div class="form-element">
+            <button mat-raised-button color="primary" type="submit" class="button">Send</button>
+          </div>
+      
+        </form>
+    
+    </div>
+</mat-sidenav-content>
+
+
+
