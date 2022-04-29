@@ -9,14 +9,22 @@ import { ContractService } from 'src/app/services/contract.service';
 })
 export class HomeComponent implements OnInit {
 
-  name:any
-  name2:any
+ 
+  transfers: any
   constructor(
     private formBuilder:FormBuilder,
     private contractService:ContractService
   ) { }
   
+ 
+  async initVariables(){
+    await this.contractService.initVariables();
+    this.transfers =  await this.contractService.wallet.methods.getTransfers().call()
+    console.log( this.transfers)
+  }
   ngOnInit(): void {
+    this.initVariables()
+
   }
   transferForm = this.formBuilder.group({
     amount: [''],
@@ -25,7 +33,9 @@ export class HomeComponent implements OnInit {
 
   onSubmit(){
     console.log(parseInt(this.transferForm.value['amount']))
-    this.contractService.createTransfer(this.transferForm.value['amount'], this.transferForm.value['sendTo'])
+    this.contractService
+    .createTransfer(this.transferForm.value['amount'], this.transferForm.value['sendTo'])
+    
   }
 
 

@@ -1,27 +1,48 @@
-<mat-sidenav-content>
-    <div class="container" > 
-        <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" >
-            <div class="">
-            <mat-form-field class="form-element">
-            <input matInput placeholder="amount of transfer" formControlName="amount">
-          </mat-form-field>
-      
+
+  <div class="container" > 
+      <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" >
+          <div class="">
           <mat-form-field class="form-element">
-            <input matInput placeholder="Address of receiver" formControlName="sendTo">
-          </mat-form-field>
-      
-            </div>
-        
-        
-      
-          <div class="form-element">
-            <button mat-raised-button color="primary" type="submit" class="button">Send</button>
+          <input matInput placeholder="amount of transfer" formControlName="amount">
+        </mat-form-field>
+    
+        <mat-form-field class="form-element">
+          <input matInput placeholder="Address of receiver" formControlName="sendTo">
+        </mat-form-field>
+    
           </div>
       
-        </form>
+      
     
-    </div>
-</mat-sidenav-content>
+        <div class="form-element">
+          <button mat-raised-button color="primary" type="submit" class="button">Send</button>
+        </div>
+    
+      </form>
+  
 
+      <table class="table  table-dark mt-5">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">amount</th>
+            <th scope="col">to</th>
+            <th scope="col">approvals</th>
+            <th scope="col">sent</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr *ngFor="let transfer of transfers">
+            <td>{{ transfer.id  }}</td>
+            <td>{{ transfer.amount }}</td>
+            <td>{{ transfer.to }}</td>
+            <td>{{ transfer.approvals }}</td>
+            <td>{{ transfer.sent ? 'YES' : 'NO' }}</td>
+      
+          </tr>
+        </tbody>
+      </table>
+  </div>
 
 
