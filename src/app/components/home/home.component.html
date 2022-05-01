@@ -19,7 +19,6 @@
         </div>
     
       </form>
-  
 
       <table class="table  table-dark mt-5">
         <thead>
@@ -29,20 +28,26 @@
             <th scope="col">to</th>
             <th scope="col">approvals</th>
             <th scope="col">sent</th>
+            <th scope="col">action</th>
           </tr>
         </thead>
         <tbody>
           
-          <tr *ngFor="let transfer of transfers">
-            <td>{{ transfer.id  }}</td>
+          <tr *ngFor="let transfer of transfers ">
+            <td>{{ transfer.id }}</td>
             <td>{{ transfer.amount }}</td>
             <td>{{ transfer.to }}</td>
             <td>{{ transfer.approvals }}</td>
             <td>{{ transfer.sent ? 'YES' : 'NO' }}</td>
+          
+
+            <td><input type="button" value="approve" (click)="approveTransfer(transfer.id)"></td>
       
           </tr>
         </tbody>
       </table>
   </div>
+
+ 
 
 

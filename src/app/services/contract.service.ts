@@ -5,7 +5,7 @@ import {getWeb3, getWallet} from '../../utils'
   providedIn: 'root'
 })
 export class ContractService {
-  web3:Web3 | undefined;
+  web3!: Web3;
   accounts:any;
   wallet:any;
   approvers: any;
@@ -15,7 +15,7 @@ export class ContractService {
   }
 
   async initVariables(){
-    this.web3 =  getWeb3(),
+    this.web3 =  await getWeb3(),
     this.accounts = await this.web3.eth.getAccounts(),
     this.wallet = await getWallet(this.web3),
     this.approvers = await this.wallet.methods.getApprovers().call();
@@ -30,5 +30,10 @@ export class ContractService {
     .send({from: this.accounts[0], gas: 1000000});
   }
   
+  approveTransfer(id:string){
+    this.wallet.methods.approveTransfer(id).send({from: this.accounts[0]})
+  
+  }
+
 
 }
