@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ContractService } from 'src/app/services/contract.service';
-import { from, Observable } from 'rxjs';
-import { cpuUsage } from 'process';
+
 
 @Component({
   selector: 'app-home',
@@ -24,6 +23,7 @@ export class HomeComponent implements OnInit {
     await this.contractService.initVariables();
     this.transfers  = await this.contractService.wallet.methods.getTransfers().call();
     console.log(this.transfers)
+    console.log("aaa")
   }
   ngOnInit(): void {
     this.initVariables()
@@ -37,15 +37,30 @@ export class HomeComponent implements OnInit {
 
    async onSubmit(){
    // console.log(parseInt(this.transferForm.value['amount']))
-    this.contractService.createTransfer(this.transferForm.value['amount'], this.transferForm.value['sendTo'])
-  
+    await this.contractService.createTransfer(this.transferForm.value['amount'], this.transferForm.value['sendTo'])
+    const length = this.transfers.length
+    const myInterval = setInterval(async ()=> {
+      this.transfers  = await this.contractService.wallet.methods.getTransfers().call();
+      console.log('create')
+      if(this.transfers.length > length)
+        clearInterval(myInterval);
+    }, 1000);
+    
   }
 
-  async approveTransfer(id:string){
+  async approveTransfer(id:string ){
     await this.contractService.approveTransfer(id)
-  
-  }
+    const myInterval = setInterval(async ()=> {
+      const nbApprovals = this.transfers[id].approvals
+      this.transfers  = await this.contractService.wallet.methods.getTransfers().call();
+      console.log('approve ')
+      if(this.transfers[id].approvals  > nbApprovals)
+      clearInterval(myInterval);
 
+    }, 1000);
+    
+  }
+ 
 }
 
 
