@@ -1,3 +1,4 @@
+import detectEthereumProvider from '@metamask/detect-provider';
 import { rejects } from 'assert';
 import { resolve } from 'dns';
 import Web3 from 'web3';
@@ -6,23 +7,27 @@ const Wallet = require ('./contracts/Wallet.json');
 const getWeb3 = () => {
     return new Web3('http://127.0.0.1:9545');
 }; */
+
 const getWeb3 = () => {
   return new  Promise<Web3>(async (resolve,reject) => {
-    window.addEventListener('load', async() => {
- if(window.ethereum){
-      try{
-        const web3 = new Web3(window.ethereum);
-        await window.ethereum.enable();
-        resolve(web3)
-      } catch(error){
-        reject(error)
-      }
-    } else if(window.web3){
-      resolve(window.web3)
-    } else {
-      reject('must install Metamask')
+   let provider:any = await detectEthereumProvider();
+   if(provider) {
+
+    await provider.request({ method: 'eth_requestAccounts' });
+    
+    try {
+    
+    const web3 = new Web3(<any>window.ethereum);
+    
+    resolve(web3);
+    
+    } catch(error) {
+    
+    reject(error);
+    
     }
-    });
+    
+    } reject('Install Metamask');
   });
 
 };
